@@ -52,3 +52,7 @@ cdef class PyQuaternion:
     @z.setter
     def z(self, val):
         self._thisptr.z = val
+
+    # Dot product operation between quaternions
+    def dot(self, PyQuaternion q):
+        return self._thisptr.dot(q._thisptr)
