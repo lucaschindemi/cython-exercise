@@ -18,6 +18,8 @@ cdef class PyQuaternion:
         if self._thisptr != NULL:
             del self._thisptr
 
+
+    # We expose the quaternion members
     @property
     def w(self):
         return self._thisptr.w
@@ -33,3 +35,20 @@ cdef class PyQuaternion:
     @property
     def z(self):
         return self._thisptr.z
+
+    # We declare a setter for each member in order to rewrite it
+    @w.setter
+    def w(self, val):
+        self._thisptr.w = val
+
+    @x.setter
+    def x(self, val):
+        self._thisptr.x = val
+
+    @y.setter
+    def y(self, val):
+        self._thisptr.y = val
+
+    @z.setter
+    def z(self, val):
+        self._thisptr.z = val
