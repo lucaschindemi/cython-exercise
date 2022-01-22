@@ -3,7 +3,7 @@ cdef extern from "quaternion.h":
         float w,x,y,z
         Quaternion(float, float, float, float)
         float dot(const Quaternion* q)
-
+        float length()
 
 cdef class PyQuaternion:
 
@@ -56,3 +56,8 @@ cdef class PyQuaternion:
     # Dot product operation between quaternions
     def dot(self, PyQuaternion q):
         return self._thisptr.dot(q._thisptr)
+
+    # Length of quaternion
+    @property
+    def length(self):
+        return self._thisptr.length()
