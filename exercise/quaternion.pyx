@@ -4,6 +4,8 @@ cdef extern from "quaternion.h":
         Quaternion(float, float, float, float)
         float dot(const Quaternion* q)
         float length()
+        Quaternion* conjugate(const Quaternion* q)
+        void display()
 
 cdef class PyQuaternion:
 
@@ -61,3 +63,12 @@ cdef class PyQuaternion:
     @property
     def length(self):
         return self._thisptr.length()
+
+    # Conjugate of quaternion
+    def conjugate(self, PyQuaternion q):
+        self._thisptr = self._thisptr.conjugate(q._thisptr)
+
+    # Display quaternion
+    @property
+    def display(self):
+        self._thisptr.display()

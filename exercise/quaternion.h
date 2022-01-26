@@ -11,6 +11,12 @@ float kmQuaternionDot(const Quaternion* q1, const Quaternion* q2);
 float kmQuaternionLengthSq(const Quaternion* q);
 float kmQuaternionLength(const Quaternion* q);
 
+// Conjugate
+Quaternion* kmQuaternionConjugate(Quaternion* pOut, const Quaternion* pIn);
+
+// Display quaternion
+void displayQuaternion(Quaternion* q);
+
 
 struct Quaternion {
   Quaternion(float _w, float _x, float _y, float _z):
@@ -22,6 +28,13 @@ struct Quaternion {
 
   // Length
   float length();
+
+  // Conjugate
+  Quaternion* conjugate(const Quaternion* q);
+
+  // Display quaternion
+  void display();
+
 
   float w,x,y,z;
 };

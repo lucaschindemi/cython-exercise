@@ -1,5 +1,6 @@
 #include "quaternion.h"
 #include <math.h>
+#include <iostream>
 
 // ----- Structure methods -----
 // Dot product between quaternions
@@ -10,6 +11,16 @@ float Quaternion::dot(const Quaternion* q){
 // Length of quaternion
 float Quaternion::length(){
     return kmQuaternionLength(this);
+}
+
+// Conjugate of quaternion
+Quaternion* Quaternion::conjugate(const Quaternion* q){
+    return kmQuaternionConjugate(this, q);
+}
+
+// Display quaternion
+void Quaternion::display(){
+    displayQuaternion(this);
 }
 
 // -----
@@ -37,4 +48,21 @@ float kmQuaternionLengthSq(const Quaternion* q)
             q->z * q->z + q->w * q->w;
 }
 
+// Returns pOut, sets pOut to the conjugate of pIn
+Quaternion* kmQuaternionConjugate(Quaternion* pOut, const Quaternion* pIn)
+{
+  pOut->w = pIn->w;
+  pOut->x = -pIn->x;
+  pOut->y = -pIn->y;
+  pOut->z = -pIn->z; 
 
+  return pOut;
+}
+
+// To show the members of the quaternion
+void displayQuaternion(Quaternion* q)
+{
+
+  std::cout<<"Quaternion: " << "(" << q->w << ", " << q->x << ", " << q->y << ", " << q->z << ") \n";
+
+}
