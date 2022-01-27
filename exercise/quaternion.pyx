@@ -1,10 +1,12 @@
+from libc.stdlib cimport malloc, free
+
 cdef extern from "quaternion.h":
     cdef cppclass Quaternion:
         float w,x,y,z
         Quaternion(float, float, float, float)
         float dot(const Quaternion* q)
         float length()
-        Quaternion* conjugate(const Quaternion* q)
+        Quaternion* conjugate(Quaternion* q_conj)
         void display()
 
 cdef class PyQuaternion:
@@ -19,6 +21,12 @@ cdef class PyQuaternion:
     def __dealloc__(self):
         if self._thisptr != NULL:
             del self._thisptr
+
+
+    # We expose the str method to be able to print the quaternion
+    def __str__(self):
+        return ('Quaternion: (' + str(self._thisptr.w) + ', ' + str(self._thisptr.x) + ', ' + 
+            str(self._thisptr.y) + ', ' + str(self._thisptr.z) + ')')
 
 
     # We expose the quaternion members
@@ -65,8 +73,19 @@ cdef class PyQuaternion:
         return self._thisptr.length()
 
     # Conjugate of quaternion
-    def conjugate(self, PyQuaternion q):
-        self._thisptr = self._thisptr.conjugate(q._thisptr)
+    cpdef conjugate(self):
+        # save space for storing the conjugate
+        cdef Quaternion* q_conj = <Quaternion*> malloc(sizeof(Quaternion))
+
+        # get conjugate of instance and store it in q_conj
+        self._thisptr.conjugate(q_conj)
+
+        # parse Quaternion to PyQuaternion
+        pq_conj = PyQuaternion(q_conj.w, q_conj.x, q_conj.y, q_conj.z)
+
+        free(q_conj) # free Quaternion
+
+        return pq_conj # return PyQuaternion conjugate
 
     # Display quaternion
     @property

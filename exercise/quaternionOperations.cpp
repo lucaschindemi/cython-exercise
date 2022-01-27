@@ -14,8 +14,8 @@ float Quaternion::length(){
 }
 
 // Conjugate of quaternion
-Quaternion* Quaternion::conjugate(const Quaternion* q){
-    return kmQuaternionConjugate(this, q);
+Quaternion* Quaternion::conjugate(Quaternion* q_conj){
+    return kmQuaternionConjugate(q_conj, this);
 }
 
 // Display quaternion
@@ -48,15 +48,15 @@ float kmQuaternionLengthSq(const Quaternion* q)
             q->z * q->z + q->w * q->w;
 }
 
-// Returns pOut, sets pOut to the conjugate of pIn
-Quaternion* kmQuaternionConjugate(Quaternion* pOut, const Quaternion* pIn)
+// Returns q_conj, sets q_conj to the conjugate of q
+Quaternion* kmQuaternionConjugate(Quaternion* q_conj, const Quaternion* q)
 {
-  pOut->w = pIn->w;
-  pOut->x = -pIn->x;
-  pOut->y = -pIn->y;
-  pOut->z = -pIn->z; 
+  q_conj->w = q->w;
+  q_conj->x = -q->x;
+  q_conj->y = -q->y;
+  q_conj->z = -q->z; 
 
-  return pOut;
+  return q_conj;
 }
 
 // To show the members of the quaternion
